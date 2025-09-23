@@ -2,10 +2,12 @@
 //
 
 #include <iostream>
-
+#include "GameManager.h"
 int main()
 {
-    std::cout << "Hello World!\n";
+    srand(time(0)); //시드 값 변경
+    GameManager Game; // 게임 매니저 객체 생성
+    Game.GameStart(); // 객체를 통한 게임시작
 }
 
 // 프로그램 실행: <Ctrl+F5> 또는 [디버그] > [디버깅하지 않고 시작] 메뉴
