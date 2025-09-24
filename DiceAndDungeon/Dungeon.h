@@ -46,11 +46,13 @@ public:
 					Rooms[y][x] = RoomType::Boss; // 보스 방 x 가 9일때 RandomRoom을 6으로 설정해서 이곳으로 들어오도록 설정
 					break;
 				} 
-				Rooms[y][x] = RoomType::Empty;
 			}
 		}
 	}
+	~Dungeon() = default;
+	// X와 Y의 값을 파라매터로 받는 Getter 함수를 만들어 Rooms 배열의 InX , InY 값의 enum 값을 리턴 받기
+	inline const RoomType GetRoomType(int InX,int InY) const { return Rooms[InX][InY]; } 
 private:
-	RoomType Rooms[DungeonSize][DungeonSize]; // 층과 방 배열 선언
+	RoomType Rooms[DungeonSize][DungeonSize]; // 층과 방 배열선언
 };
 

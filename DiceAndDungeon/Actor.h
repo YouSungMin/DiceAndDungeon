@@ -24,11 +24,12 @@ public:
 	inline bool IsAlive(){return HealthPoint > 0;}
 
 protected:
-	std::string Name = "╬вем";
+	std::string Name = "Actor";
 	float HealthPoint = 100.0f;
 	float AttackPower = 10.0f;
 	float DefensivePower = 5.0f;
-	int Gold;
+	float MaxHealth = 100.0f;
+	int Gold = 0;
 
 };
 
