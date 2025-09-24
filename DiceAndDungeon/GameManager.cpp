@@ -8,6 +8,7 @@ void GameManager::GameStart()
 	std::cin>>PlayerName;
 	system("cls");
 	PlayerStateReroll();
+
 }
 
 void GameManager::PlayerStateReroll()
@@ -35,17 +36,17 @@ void GameManager::PlayerStateReroll()
 				printf("캐릭터의 HP를 설정하는");
 				PrintDiceResult();
 				printf("가 오릅니다.\n");
-				Roll_HealthPoint = ResultDiceRoll[3];
+				Roll_HealthPoint = ResultDiceSum;
 				PlayerDiceRoll(3);
 				printf("캐릭터의 공격력을 설정하는");
 				PrintDiceResult();
 				printf("가 오릅니다.\n");
-				Roll_AttackPower = ResultDiceRoll[3];
+				Roll_AttackPower = ResultDiceSum;
 				PlayerDiceRoll(3);
 				printf("캐릭터의 방어력을 설정하는");
 				PrintDiceResult();
 				printf("가 오릅니다.\n");
-				Roll_DefensivePower = ResultDiceRoll[3];
+				Roll_DefensivePower = ResultDiceSum;
 				break;
 			}
 		}
@@ -59,14 +60,14 @@ void GameManager::PlayerStateReroll()
 		}
 		while(true)
 		{
-			printf("다시 스탯을 설정하시겠습니까? (Yes = Y,y/ No = X,x)입력\n");
+			printf("다시 스탯을 설정하시겠습니까? (Yes = Y,y/ No = N,n)입력\n");
 			std::cin >> Choice;
 			if (Choice == 'y' || Choice == 'Y')
 			{
 				Reroll_Count--;
 				break;
 			}
-			if (Choice == 'x' || Choice == 'X')
+			if (Choice == 'n' || Choice == 'N')
 			{
 				Reroll_Count = -1;
 				break;
@@ -84,15 +85,28 @@ void GameManager::DungeonTest()
 
 void GameManager::PlayerDiceRoll(int DiceRollCount)
 {	
-	ResultDiceRoll[3] = 0.0f;
+	ResultDiceSum = 0.0f;
 	for (int i = 0; i < DiceRollCount; i++)
 	{
 		ResultDiceRoll[i] = static_cast<float>(rand() % 6 + 1);
-		ResultDiceRoll[3] += ResultDiceRoll[i];
+		ResultDiceSum += ResultDiceRoll[i];
 	}
 }
 
 const void GameManager::PrintDiceResult() const
 {
-	printf("주사위는 %d , %d , %d 가 나와 총 %d", static_cast<int>(ResultDiceRoll[0]), static_cast<int>(ResultDiceRoll[1]), static_cast<int>(ResultDiceRoll[2]), static_cast<int>(ResultDiceRoll[3]));
+	printf("주사위는 %d , %d , %d 가 나와 총 %d", static_cast<int>(ResultDiceRoll[0]), static_cast<int>(ResultDiceRoll[1]), static_cast<int>(ResultDiceRoll[2]), static_cast<int>(ResultDiceSum));
+}
+
+void GameManager::DungeonStart()
+{
+	Dungeon InDungeon;
+
+	for (int y = 0; y < InDungeon.DungeonSize; y++)
+	{
+		for (int x = 0; x < InDungeon.DungeonSize; x++)
+		{
+			
+		}
+	}
 }
