@@ -37,14 +37,22 @@ public:
 	void TraderEncounter();
 	void TrapEncounter();
 	void EmptyRoom();
+	void BossRoom();
 
+	void NextRoom();
 	void DungeonTest(); // 던전 방의 초기화가 잘되었는지 확인한 테스트 함수
+
+	void TraderStoreList();
 	
 private:
 	static const int DiceRollMaxCount = 3;
+	static const int RerollStateType = 3;
 	std::string PlayerName = ""; // 플레이어의 이름을 담는 변수
 	float ResultDiceRoll[DiceRollMaxCount]; // 주사위를 굴린 각각의 결과를 담는 변수
 	float ResultDiceSum = 0.0f;// 주사위를 굴린 모든 결과를 더한 변수
-};
+	float State[RerollStateType];
+	char PlayerChoice = NULL;
+	static const int HealCost = 10;
 
-encounter
+	Player GamePlayer;
+};

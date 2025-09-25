@@ -23,13 +23,27 @@ public:
 	/// <returns>true면 살아있음 </returns>
 	inline bool IsAlive(){return HealthPoint > 0;}
 
+	inline int GetGold(){return Gold;}
+	inline float GetHealthPoint(){return HealthPoint;}
+
 protected:
+	inline void SetHealth(float InHealth)
+	{
+		if (InHealth > MaxHealth)
+		{
+			HealthPoint = MaxHealth;
+		}
+		else
+		{
+			HealthPoint = InHealth;
+		}
+	}
 	std::string Name = "Actor";
 	float HealthPoint = 100.0f;
 	float AttackPower = 10.0f;
 	float DefensivePower = 5.0f;
 	float MaxHealth = 100.0f;
-	int Gold = 0;
+	int Gold = 10;
 
 };
 

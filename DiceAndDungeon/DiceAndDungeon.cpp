@@ -5,7 +5,7 @@
 #include "GameManager.h"
 int main()
 {
-    srand(time(0)); //시드 값 변경
+    srand(time(NULL)); //시드 값 변경
     GameManager Game; // 게임 매니저 객체 생성
     Game.GameStart(); // 객체를 통한 게임시작
     //Game.DungeonTest();

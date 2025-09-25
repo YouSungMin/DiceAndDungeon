@@ -12,6 +12,11 @@ public:
 		AttackPower += InAttackPower;
 		DefensivePower += InDefensivePower;
 	}
+public:
+	void SetPlayerHealth(float InHealth)
+	{
+		SetHealth(InHealth); // 상위 클래스(Actor)의 protected 멤버에 접근
+	}
 private:
 	
 };
