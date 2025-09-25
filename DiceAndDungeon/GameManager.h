@@ -1,12 +1,20 @@
 #pragma once
 #include <Windows.h>
-#include "Player.h"
 #include <iostream>
 #include <cstdlib>
+#include "Player.h"
 #include "Dungeon.h"
+#include "Trader.h"
+#include "Enemy.h"
+
 class GameManager
 {
 public:
+	~GameManager() {
+		if (GamePlayer) {
+			delete GamePlayer;
+		}
+	}
 	void GameStart(); // 게임 시작 함수
 
 	/// <summary>
@@ -41,8 +49,12 @@ public:
 
 	void NextRoom();
 	void DungeonTest(); // 던전 방의 초기화가 잘되었는지 확인한 테스트 함수
-
+	// 오른쪽 값 참조
+	void StartBattle(std::unique_ptr<Enemy>&& InEnemy);
+	void GameEnd() const;
+	inline bool IsGameEnd() const{return GamePlayer->GetHealthPoint() < 0;}
 	void TraderStoreList();
+	void PrintPlayerState();
 	
 private:
 	static const int DiceRollMaxCount = 3;
@@ -53,6 +65,7 @@ private:
 	float State[RerollStateType];
 	char PlayerChoice = NULL;
 	static const int HealCost = 10;
+	static const int EnemySpawnPercent = 9;
 
-	Player GamePlayer;
+	Player* GamePlayer = nullptr;
 };

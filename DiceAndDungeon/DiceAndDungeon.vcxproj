@@ -128,16 +128,26 @@
     <ClCompile Include="Dungeon.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="Goblin.cpp" />
+    <ClCompile Include="Oak.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Skeleton.cpp" />
+    <ClCompile Include="Slime.cpp" />
     <ClCompile Include="Trader.cpp" />
+    <ClCompile Include="Zombie.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
     <ClInclude Include="Dungeon.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="Goblin.h" />
+    <ClInclude Include="Oak.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Skeleton.h" />
+    <ClInclude Include="Slime.h" />
     <ClInclude Include="Trader.h" />
+    <ClInclude Include="Zombie.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
