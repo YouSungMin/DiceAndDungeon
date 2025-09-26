@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="몬스터">
+      <UniqueIdentifier>{dee5c48f-c685-4bc8-91eb-66c731923b9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="보스">
+      <UniqueIdentifier>{d3139ab5-1159-4c9e-b530-66e4cad4dd7f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DiceAndDungeon.cpp">
@@ -36,20 +42,38 @@
     <ClCompile Include="Trader.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Oak.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="Goblin.cpp">
+      <Filter>몬스터</Filter>
     </ClCompile>
-    <ClCompile Include="Zombie.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="Oak.cpp">
+      <Filter>몬스터</Filter>
     </ClCompile>
     <ClCompile Include="Skeleton.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>몬스터</Filter>
     </ClCompile>
     <ClCompile Include="Slime.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>몬스터</Filter>
     </ClCompile>
-    <ClCompile Include="Goblin.cpp">
-      <Filter>소스 파일</Filter>
+    <ClCompile Include="Zombie.cpp">
+      <Filter>몬스터</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>보스</Filter>
+    </ClCompile>
+    <ClCompile Include="Demon.cpp">
+      <Filter>보스</Filter>
+    </ClCompile>
+    <ClCompile Include="GiantSlime.cpp">
+      <Filter>보스</Filter>
+    </ClCompile>
+    <ClCompile Include="LavaGiant.cpp">
+      <Filter>보스</Filter>
+    </ClCompile>
+    <ClCompile Include="ShadowWraith.cpp">
+      <Filter>보스</Filter>
+    </ClCompile>
+    <ClCompile Include="LabyrinthWarden.cpp">
+      <Filter>보스</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -71,20 +95,38 @@
     <ClInclude Include="Trader.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Oak.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="Goblin.h">
+      <Filter>몬스터</Filter>
     </ClInclude>
-    <ClInclude Include="Zombie.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="Oak.h">
+      <Filter>몬스터</Filter>
     </ClInclude>
     <ClInclude Include="Skeleton.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>몬스터</Filter>
     </ClInclude>
     <ClInclude Include="Slime.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>몬스터</Filter>
     </ClInclude>
-    <ClInclude Include="Goblin.h">
-      <Filter>헤더 파일</Filter>
+    <ClInclude Include="Zombie.h">
+      <Filter>몬스터</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss.h">
+      <Filter>보스</Filter>
+    </ClInclude>
+    <ClInclude Include="Demon.h">
+      <Filter>보스</Filter>
+    </ClInclude>
+    <ClInclude Include="GiantSlime.h">
+      <Filter>보스</Filter>
+    </ClInclude>
+    <ClInclude Include="LavaGiant.h">
+      <Filter>보스</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowWraith.h">
+      <Filter>보스</Filter>
+    </ClInclude>
+    <ClInclude Include="LabyrinthWarden.h">
+      <Filter>보스</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

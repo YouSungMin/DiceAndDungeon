@@ -4,12 +4,32 @@
 #include "Oak.h"
 #include "Slime.h"
 #include "Goblin.h"
+#include "GiantSlime.h"
+#include "Demon.h"
+#include "ShadowWraith.h"
+#include "LavaGiant.h"
+#include "LabyrinthWarden.h"
 #include <memory>
 
 void GameManager::GameStart()
 {
-	printf("Dice And Dungeon\n");
-	printf("게임을 시작하려면 플레이어의 이름을 입력해주세요!\n");
+	printf("==========================================================\n");
+	printf("||                                                      ||\n");
+	printf("||          +----+                                      ||\n");
+	printf("||         /    /|                                      ||\n");
+	printf("||        +----+ |  <-- 모험의 주사위가 굴러갑니다!     ||\n");
+	printf("||        |    | +                                      ||\n");
+	printf("||        |    |/                                       ||\n");
+	printf("||        +----+                                        ||\n");
+	printf("||                                                      ||\n");
+	printf("||      ============================================    ||\n");
+	printf("||      ||                                        ||    ||\n");
+	printf("||      ||   D I C E   A N D   D U N G E O N      ||    ||\n");
+	printf("||      ||                                        ||    ||\n");
+	printf("||      ============================================    ||\n");
+	printf("||                                                      ||\n");
+	printf("==========================================================\n");
+	printf("\n환영합니다! 던전에 도전할 용사의 이름을 입력해주세요: ");
 	std::cin>>PlayerName;
 	system("cls");
 	PlayerStateReroll();
@@ -84,7 +104,10 @@ void GameManager::PlayerStateReroll()
 
 void GameManager::DungeonTest()
 {
-	EnemyEncounter();
+	GamePlayer = new Player("aaa", 5.0f, 5.0f, 5.0f);
+	TraderEncounter();
+	int i = 0;
+	delete GamePlayer;
 }
 
 void GameManager::StartBattle(std::unique_ptr<Enemy>&& InEnemy)
@@ -107,13 +130,16 @@ void GameManager::StartBattle(std::unique_ptr<Enemy>&& InEnemy)
 		PlayerDiceRoll(DiceRollMaxCount);
 		PrintDiceResult();
 		printf("을 추가 방어력을 얻습니다.\n");
-		printf("%s의 공격!\n",(InEnemy->GetName()).c_str());
+		printf("%s의 공격!\n", (InEnemy->GetName()).c_str());
+		if (rand() % InEnemy->GetUseSkillPercent() == 0)
+		{
+			InEnemy->UseSkill();
+		}
 		Sleep(1000);
 		InEnemy->Attack(GamePlayer,ResultDiceSum);
-		if (!GamePlayer->IsAlive())
-		{
-			GameEnd();
-		}
+		Sleep(2000);
+		system("cls");
+		PrintPlayerState();
 	}
 	
 }
@@ -123,22 +149,27 @@ void GameManager::GameEnd() const
 	if (GamePlayer->IsAlive())
 	{
 		printf("축하합니다! 던전을 정복하셨습니다.!!!!\n");
+		exit(0);
 	}
 	else
 	{
 		printf("던전 정복 실패..... 다음기회에 도전해주세요\n");
+		exit(0);
 	}
 }
 
-void GameManager::PrintPlayerState()
+void GameManager::PrintPlayerState()const
 {
+	printf("%d 층 %d 번방 \n\n", y + 1, x + 1);
 	printf("==================================================================================\n");
 	printf("이름 : %s , HP : [% .1f / % .1f], 공격력 : %.1f, 방어력 : %.1f, 소유 골드 : %2d\n"
 		, (GamePlayer->GetName()).c_str(),GamePlayer->GetHealthPoint()
 		, GamePlayer->GetMaxHealth(), GamePlayer->GetAttackPower()
-		, GamePlayer->GetDefensivePowert(), GamePlayer->GetGold());
+		, GamePlayer->GetDefensivePower(), GamePlayer->GetGold());
 	printf("==================================================================================\n");
 }
+
+
 
 void GameManager::PlayerDiceRoll(int DiceRollCount)
 {	
@@ -159,40 +190,38 @@ void GameManager::DungeonStart()
 {
 	Dungeon InDungeon;
 
-	for (int y = 0; y < InDungeon.DungeonSize; y++)
+	for (y = 0; y < InDungeon.DungeonSize; y++)
 	{
-		for (int x = 0; x < InDungeon.DungeonSize; x++)
+		for (x = 0; x < InDungeon.DungeonSize; x++)
 		{
-			if(!IsGameEnd()
-
-				printf("%d 층 %d 번방 \n\n",y+1,x+1);
-				PrintPlayerState();
-				switch (InDungeon.GetRoomType(x,y))
-				{
-				case RoomType::Empty:
-					EmptyRoom();
-					break;
-				case RoomType::Healer:
-					HealerEncounter();
-					break;
-				case RoomType::trap:
-					TrapEncounter();
-					break;
-				case RoomType::trader:
-					TraderEncounter();
-					break;
-				case RoomType::Enemy:
-					EnemyEncounter();
-					break;
-				case RoomType::Boss:
-					break;
-				default:
-					break;
-				}
+			PrintPlayerState();
+			switch (InDungeon.GetRoomType(y,x))
+			{
+			case RoomType::Empty:
+				EmptyRoom();
+				break;
+			case RoomType::Healer:
+				HealerEncounter();
+				break;
+			case RoomType::trap:
+				TrapEncounter();
+				break;
+			case RoomType::trader:
+				TraderEncounter();
+				break;
+			case RoomType::Enemy:
+				EnemyEncounter();
+				break;
+			case RoomType::Boss:
+				BossRoom();
+				break;
+			default:
+				break;
 			}
 				
 		}
 	}
+	GameEnd();
 }
 
 void GameManager::EnemyEncounter()
@@ -232,6 +261,10 @@ void GameManager::EnemyEncounter()
 	printf("전투 시작!\n");
 	//소유권 이전
 	StartBattle(std::move(NewEnemy));
+	if (!(GamePlayer->IsAlive()))
+	{
+		GameEnd();
+	}
 	NextRoom();
 }
 
@@ -267,7 +300,7 @@ void GameManager::HealerEncounter()
 			printf("이 치유됩니다\n");
 			GamePlayer->SetPlayerHealth(ResultDiceSum+(GamePlayer->GetHealthPoint()));
 			printf("현재 체력 : %.1f\n",GamePlayer->GetHealthPoint());
-			int i=0;
+			GamePlayer->SetPlayerGold(GamePlayer->GetGold()- HealCost);
 		}
 	}
 	NextRoom();
@@ -278,11 +311,141 @@ void GameManager::TraderEncounter()
 {
 	printf("상인을 만났습니다.\n");
 	Trader trad;
-	trad.GetStorList();
-	printf("상점 목록\n");
-	NextRoom();
-	return;
+	if (trad.GetStorList() == static_cast<int>(StoreList::None))
+	{
+		printf("도적을 만나 모든 물건을 빼앗겼네... 팔 수 있는 물건이 없소\n");
+		NextRoom();
+	}
+	else
+	{
+		while(trad.GetStorList() != 0 && trad.IsTraderShopping())
+		{
+			printf("상점 목록\n");
+			printf("========================================================\n");
+		
+			if (trad.HasPotion(StoreList::MaxHealthPointUPPotion))
+			{
+				printf("- 최대 체력 10 증가 물약 [%dG] \n",trad.GetMaxHealthPotionPrice());
+			}
+			if (trad.HasPotion(StoreList::AttackPowerUPPotion))
+			{
+				printf("- 공격력 증가 5 물약 [%dG] \n",trad.GetAttackPotionPrice());
+			}
+			if (trad.HasPotion(StoreList::DefensivePowerUPPotion))
+			{
+				printf("- 방어력 증가 5 물약 [%dG] \n",trad.GetDefensePotionPrice());
+			}
+			printf("========================================================\n");
+			if (trad.HasPotion(StoreList::MaxHealthPointUPPotion))
+			{
+				printf("H 입력 : 최대 체력 10 증가 물약 구입\n");
+			}
+			if (trad.HasPotion(StoreList::AttackPowerUPPotion))
+			{
+				printf("A 입력 : 공격력 5  증가 물약 구입\n");
+			}
+			if (trad.HasPotion(StoreList::DefensivePowerUPPotion))
+			{
+				printf("D 입력 : 방어력 5 증가 물약 구입\n");
+			}
+			printf("0 입력 : 상점 닫기\n");
+			printf("========================================================\n");
+			printf("보유 골드 : %d\n",GamePlayer->GetGold());
+			printf("========================================================\n");
+			ProcessPurchaseLoop(trad);
+		}
+		NextRoom();
+	}
 }
+void GameManager::ProcessPurchaseLoop(Trader& trad)
+{
+	char Choice = NULL;
+	while (true)
+	{
+		printf("구매하실 포션을 입력해주세요\n");
+		std::cin >> Choice;
+		switch (Choice)
+		{
+		case 'H':
+			if (trad.HasPotion(StoreList::MaxHealthPointUPPotion))
+			{
+				if (GamePlayer->GetGold() < trad.GetMaxHealthPotionPrice())
+				{
+					printf("보유하신 골드가 부족하여 구입에 실패하였습니다\n");
+				}
+				else
+				{
+					printf("최대 체력 10 증가 물약을 %d 골드에 구입하셨습니다.\n", trad.GetMaxHealthPotionPrice());
+					printf("최대 체력이 10 증가하였습니다.\n");
+					GamePlayer->SetPlayerGold(GamePlayer->GetGold() - trad.GetMaxHealthPotionPrice());
+					GamePlayer->SetPlayerMaxHealth(GamePlayer->GetMaxHealth()+10);
+					trad.RemoveItem(StoreList::MaxHealthPointUPPotion);
+					return;
+				}
+			}
+			else
+			{
+				printf("이미 구매하셨거나, 상점 목록에 없는 물건입니다.\n");
+			}
+			break;
+		case 'A':
+			if (trad.HasPotion(StoreList::AttackPowerUPPotion))
+			{
+				if (GamePlayer->GetGold() < trad.GetAttackPotionPrice())
+				{
+					printf("보유하신 골드가 부족하여 구입에 실패하였습니다\n");
+				}
+				else
+				{
+					printf("공격력 5 증가 물약을 %d 골드에 구입하셨습니다.\n", trad.GetAttackPotionPrice());
+					printf("공격력 5 증가하였습니다.\n");
+					GamePlayer->SetPlayerGold(GamePlayer->GetGold() - trad.GetAttackPotionPrice());
+					GamePlayer->SetPlayerAttackPower(GamePlayer->GetAttackPower() + 5);
+					GamePlayer->SetPlayerOriginalAttackPower(GamePlayer->GetOriginalAttackPower() + 5);
+					trad.RemoveItem(StoreList::AttackPowerUPPotion);
+					return;
+				}
+			}
+			else
+			{
+				printf("이미 구매하셨거나, 상점 목록에 없는 물건입니다.\n");
+			}
+			break;
+		case 'D':
+			if (trad.HasPotion(StoreList::DefensivePowerUPPotion))
+			{
+				if (GamePlayer->GetGold() < trad.GetDefensePotionPrice())
+				{
+					printf("보유하신 골드가 부족하여 구입에 실패하였습니다\n");
+				}
+				else
+				{
+					printf("방어력 5 증가 물약을 %d 골드에 구입하셨습니다.\n", trad.GetDefensePotionPrice());
+					printf("방어력 5 증가하였습니다.\n");
+					GamePlayer->SetPlayerGold(GamePlayer->GetGold() - trad.GetDefensePotionPrice());
+					GamePlayer->SetPlayerDefensivePower(GamePlayer->GetDefensivePower() + 5);
+					trad.RemoveItem(StoreList::DefensivePowerUPPotion);
+					return;
+				}
+			}
+			else
+			{
+				printf("이미 구매하셨거나, 상점 목록에 없는 물건입니다.\n");
+			}
+			break;
+		case '0':
+		{
+			printf("상인에게 인사 한 후 지나갔습니다.\n");
+			trad.StopShopping();
+			return;
+		}
+		default:
+			printf("잘못 입력하셨습니다.\n");
+			break;
+		}
+	}
+}
+
 
 void GameManager::TrapEncounter()
 {
@@ -309,15 +472,65 @@ void GameManager::TrapEncounter()
 	NextRoom();
 }
 
-void GameManager::EmptyRoom()
+void GameManager::EmptyRoom()const
 {
 	printf("아무것도 없는 빈방입니다.\n");
 	NextRoom();
 }
 
-void GameManager::NextRoom()
+void GameManager::BossRoom()
 {
-	printf("다음 방으로 이동합니다.\n");
+	printf("보스가 있는 방에 들어왔습니다\n");
+	int EnemySpawn = rand() % BossSpawnPercent;
+	// 몬스터를 담을 포인터 선언
+	// 동적으로 생성된 객체의 메모리 관리를 자동으로 처리
+	// case 별로 다른 종류의 몬스터를 생성하더라도 Enemy 포인터로 관리된다.
+	std::unique_ptr<Enemy> NewEnemy = nullptr;
+
+	switch (EnemySpawn)
+	{
+	case 0:
+		NewEnemy = std::make_unique<Demon>();
+		break;
+	case 1:
+		NewEnemy = std::make_unique<GiantSlime>();
+		break;
+	case 2:
+		NewEnemy = std::make_unique<LabyrinthWarden>();
+		break;
+	case 3:
+		NewEnemy = std::make_unique<LavaGiant>();
+		break;
+	case 4:
+		NewEnemy = std::make_unique<ShadowWraith>();
+		break;
+	default:
+		break;
+	}
+	printf("%s를 마주쳤습니다.\n", (NewEnemy->GetName()).c_str());
+	printf("전투 시작!\n");
+	//소유권 이전
+	StartBattle(std::move(NewEnemy));
+	if (!(GamePlayer->IsAlive()))
+	{
+		GameEnd();
+	}
+	printf("층의 보스를 처치하셨습니다. 다음층으로!\n");
+	IsFloorCleared = true;
+	NextRoom();
+}
+
+void GameManager::NextRoom()const
+{
+	if (IsFloorCleared == true)
+	{
+		printf("다음 층으로 이동합니다.\n");
+		IsFloorCleared == false;
+	}
+	else
+	{
+		printf("다음 방으로 이동합니다.\n");
+	}
 	Sleep(2000);
 	system("cls");
 }

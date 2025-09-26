@@ -15,9 +15,14 @@ public:
         this->AttackPower = static_cast<float>(randomAttack) / 10.0f;
         Gold = rand() % (MaxDropGold - MinDropGold +1) + MinDropGold;
         DefensivePower = 0.0f;
+        this->OriginalAttackPower = this->AttackPower;
     }
+    inline int GetUseSkillPercent() const { return UseSkillPercent; }
 protected:
     static const int MaxDropGold = 15;
     static const int MinDropGold = 5;
+    int UseSkillPercent = 5;
+    bool IsSkillUse = false;
+
 };
 

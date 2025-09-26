@@ -124,13 +124,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="Demon.cpp" />
     <ClCompile Include="DiceAndDungeon.cpp" />
     <ClCompile Include="Dungeon.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="GiantSlime.cpp" />
     <ClCompile Include="Goblin.cpp" />
+    <ClCompile Include="LabyrinthWarden.cpp" />
+    <ClCompile Include="LavaGiant.cpp" />
     <ClCompile Include="Oak.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="ShadowWraith.cpp" />
     <ClCompile Include="Skeleton.cpp" />
     <ClCompile Include="Slime.cpp" />
     <ClCompile Include="Trader.cpp" />
@@ -138,12 +144,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="Boss.h" />
+    <ClInclude Include="Demon.h" />
     <ClInclude Include="Dungeon.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="GiantSlime.h" />
     <ClInclude Include="Goblin.h" />
+    <ClInclude Include="LabyrinthWarden.h" />
+    <ClInclude Include="LavaGiant.h" />
     <ClInclude Include="Oak.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="ShadowWraith.h" />
     <ClInclude Include="Skeleton.h" />
     <ClInclude Include="Slime.h" />
     <ClInclude Include="Trader.h" />

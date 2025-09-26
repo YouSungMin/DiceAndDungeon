@@ -2,6 +2,13 @@
 #include "Player.h"
 void Actor::Attack(Actor* InTarget, float PlusDicePower)
 {
+	if (rand() % CriticalPercent == 0)
+	{
+		SetAttackPower(AttackPower*2.0f);
+		IsCritical = true;
+		printf("크리티컬 발생! 데미지가 두배로 들어갑니다\n");
+	}
+
 	if(Player* playerTarget = dynamic_cast<Player*>(InTarget))
 	{
 		InTarget->TakeDamage(AttackPower - ( PlusDicePower + InTarget->DefensivePower));
@@ -9,6 +16,12 @@ void Actor::Attack(Actor* InTarget, float PlusDicePower)
 	else
 	{
 		InTarget->TakeDamage(AttackPower + PlusDicePower);
+	}
+
+	if (IsCritical == true)
+	{
+		SetAttackPower(AttackPower / 2.0f);
+		IsCritical = false;
 	}
 }
 
@@ -25,6 +38,7 @@ void Actor::TakeDamage(float InDamage)
 
 		printf("(%.1f/%.1f)\n", HealthPoint, MaxHealth);
 	}
+	SetAttackPower(OriginalAttackPower);
 	if (!IsAlive())
 	{
 		printf("%s가 죽었습니다.\n", Name.c_str());
